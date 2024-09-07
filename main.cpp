@@ -332,22 +332,33 @@ void write_texts_svg(ofstream& svg, int width, int height) {
     }
 }
 
+
+string ajouterExtension(string& nomFichier,  string extension = ".txt") {
+        if (nomFichier.size() >= extension.size() &&
+        nomFichier.compare(nomFichier.size() - extension.size(), extension.size(), extension) == 0) {
+        return nomFichier;  // L'extension est déjà présente.
+    } else {
+        return nomFichier + extension;  // Ajoute l'extension.
+    }
+}
+
 int main() {
     string scene_filename;
     string svg_filename;
 
     // Get input and output filenames
+
     cout << "Enter the scene file name: ";
     cin >> scene_filename;
 
     ifstream scene_file(scene_filename);
     if(!scene_file.is_open()) {
-        cerr << "Failed to open scene file.\n";
-        return 1;
+        cerr << "Failed to open the file " << scene_filename << ".\n";
+                return 1;
     }
-    cout << "Enter the output SVG file name: ";
+    cout << "Enter the output (SVG) file name: ";
     cin >> svg_filename;
-
+svg_filename = ajouterExtension(svg_filename, ".svg");
 
 
     string line;
@@ -393,7 +404,7 @@ int main() {
 
     svg_file.close();
 
-    cout << "SVG file generated successfully.\n";
+    cout << "SVG file " << svg_filename << " generated successfully.\n";
 
     return 0;
 }
